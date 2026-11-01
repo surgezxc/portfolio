@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Владислав Ходарев</title>
+  <meta name="description" content="Пять сделанных проектов Владислава Ходарева: приложение для собак, панель оттока, магазин, мост чатов и технический аудит SEO & GEO под Яндекс Нейро.">
+  <meta property="og:title" content="Владислав Ходарев — портфолио">
+  <meta property="og:description" content="Пять сделанных проектов: приложение для собак, панель оттока, магазин, мост чатов и технический аудит SEO & GEO под Яндекс Нейро.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="img/churn-overview.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Владислав Ходарев — портфолио">
+  <meta name="twitter:image" content="img/churn-overview.png">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <script>
+    (function() {
+      var saved = localStorage.getItem("portfolio-theme");
+      var isDark = saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches);
+      var theme = isDark ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", theme);
+      document.documentElement.style.colorScheme = theme;
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#board" data-i18n="skip">К работам</a>
+  <header class="bar">
+    <div class="bar-inner">
+      <a class="brand" href="#top" data-i18n="name">Владислав Ходарев</a>
+      <nav class="nav" id="nav" aria-label="Проекты"></nav>
+      <div class="header-controls">
+        <button type="button" class="action-btn" id="print-btn" title="Сохранить в PDF / Печать" aria-label="Сохранить резюме в PDF">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          <span data-i18n="downloadCv">PDF Резюме</span>
+        </button>
+        <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Сменить тему" title="Тема">
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+        <div class="lang" role="group" aria-label="Язык">
+          <button type="button" data-set-lang="ru" aria-pressed="true">RU</button>
+          <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="hero" id="top">
+      <p class="kicker" data-i18n="kicker">5 проектов</p>
+      <h1 data-i18n="name">Владислав Ходарев</h1>
+      <div class="meta-row">
+        <span class="meta-status" data-i18n="locationStatus">📍 Ростов-на-Дону · Удалёнка / Гибрид · Полный день / Стажировка</span>
+      </div>
+      <p class="lead" data-i18n="lead">Учусь в ДГТУ на системной аналитике. Люблю и хорошо беру на себя эту роль в реальных кейсах: разложить сложную систему по полочкам, перевести задачи бизнеса на язык архитектуры и вместе с командой довести разработку до результата. Также имею практический опыт в техническом SEO и GEO-оптимизации под Яндекс Нейро. Ниже — пять сделанных проектов.</p>
+      <p class="contact">
+        <a href="https://github.com/surgezxc" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a href="mailto:Vladkhodarev@gmail.com" class="copy-link" data-copy="Vladkhodarev@gmail.com" title="Кликните, чтобы скопировать">Vladkhodarev@gmail.com <span class="copy-hint" aria-hidden="true">📋</span></a>
+        <a href="https://t.me/zxcursedetka" target="_blank" rel="noopener noreferrer" class="copy-link" data-copy="@zxcursedetka" title="Кликните, чтобы скопировать">@zxcursedetka <span class="copy-hint" aria-hidden="true">📋</span></a>
+      </p>
+      <div class="skills-matrix" id="skills-matrix"></div>
+    </section>
+    <div class="board" id="board"></div>
+    <div id="cases"></div>
+    <section class="can" aria-labelledby="can-title">
+      <h2 id="can-title" data-i18n="canTitle">Что из этого уже делал</h2>
+      <ul id="can-list"></ul>
+    </section>
+    <section class="how" id="how" aria-labelledby="how-title">
+      <div class="section-head">
+        <h2 id="how-title" data-i18n="howTitle">Как я подхожу к работе</h2>
+        <p class="section-lead" data-i18n="howSubtitle">Просто и по делу: про команду, код и ответственность</p>
+      </div>
+      <div class="how-grid" id="how-grid"></div>
+    </section>
+    <footer class="footer">
+      <div class="footer-inner">
+        <div>
+          <h3 data-i18n="footerTitle">Всегда на связи</h3>
+          <p data-i18n="footerLead">Буду рад пообщаться по работе, проектам или просто обсудить технологии:</p>
+        </div>
+        <div class="footer-contacts">
+          <a href="https://t.me/zxcursedetka" target="_blank" rel="noopener noreferrer" class="live copy-link" data-copy="@zxcursedetka">Telegram: @zxcursedetka <span class="copy-hint" aria-hidden="true">📋</span></a>
+          <a href="mailto:Vladkhodarev@gmail.com" class="repo copy-link" data-copy="Vladkhodarev@gmail.com">Vladkhodarev@gmail.com <span class="copy-hint" aria-hidden="true">📋</span></a>
+          <a href="https://github.com/surgezxc" target="_blank" rel="noopener noreferrer" class="repo">GitHub ↗</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+  <noscript>
+    <p>Собачники, анализатор оттока, Прованс, мост Max и Telegram. Включите JavaScript, чтобы увидеть скрины и английскую версию.</p>
+  </noscript>
+  <script src="app.js"></script>
+</body>
+</html>

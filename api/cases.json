@@ -1,0 +1,54 @@
+{
+  "author": "Владислав Ходарев",
+  "education": "ДГТУ (направление: Системная аналитика)",
+  "profile": "Системная аналитика, проектирование архитектуры, разработка, техническое SEO и GEO-оптимизация",
+  "github": "https://github.com/surgezxc",
+  "total_projects": 5,
+  "projects": [
+    {
+      "id": "dogs",
+      "title": "Собачники",
+      "category": "Mobile Development",
+      "stack": ["Flutter", "Dart", "Firebase", "OpenStreetMap", "Local Notifications"],
+      "summary": "Приложение-ассистент для владельцев собак с мультипрофилем, калькулятором BARF, умными прогулками, картой ветклиник и офлайн-режимом.",
+      "detail_url": "cases/dogs.html",
+      "api_url": "api/cases/dogs.json"
+    },
+    {
+      "id": "churn",
+      "title": "Risk Desk · Анализатор рисков оттока хостинга",
+      "category": "Fullstack & Analytics",
+      "stack": ["FastAPI", "React", "TypeScript", "Docker Compose", "SQLite", "Keycloak"],
+      "summary": "Аналитическая система скоринга риска оттока клиентов хостинга, интерактивной настройки весов модели, оценки финансовых потерь и прогнозирования непродлений.",
+      "detail_url": "cases/churn.html",
+      "api_url": "api/cases/churn.json"
+    },
+    {
+      "id": "provans",
+      "title": "Магазин «Прованс»",
+      "category": "E-Commerce & Data Migration",
+      "stack": ["WordPress", "WooCommerce", "PHP", "MySQL", "301 Redirects", "SpaceWeb"],
+      "summary": "Бесшовный перенос интернет-магазина натуральной косметики с Tilda: 1888 товаров, 365 категорий, 90 SEO-редиректов и кастомная витрина.",
+      "detail_url": "cases/provans.html",
+      "api_url": "api/cases/provans.json"
+    },
+    {
+      "id": "bridge",
+      "title": "Мост Max ↔ Telegram",
+      "category": "Backend & Integrations",
+      "stack": ["Python 3.10+", "asyncio", "PyMax 2.4.1", "Telegram Bot API", "SQLite"],
+      "summary": "Асинхронный протокольный шлюз двунаправленной пересылки сообщений, фото и аудио между мессенджером Max и Telegram с изоляцией чатов и отключенной телеметрией.",
+      "detail_url": "cases/bridge.html",
+      "api_url": "api/cases/bridge.json"
+    },
+    {
+      "id": "anvgarant",
+      "title": "SEO & GEO Оптимизация: АНВ Гарант",
+      "category": "Technical SEO & Generative AI Optimization",
+      "stack": ["Technical SEO", "GEO (Яндекс Нейро, Алиса)", "Schema.org", "Топвизор", "Яндекс Вебмастер", "Яндекс Бизнес", "2ГИС"],
+      "summary": "Комплексный технический аудит сайта недвижимости: вынос контента из JS в первичный HTML (SSR), 301-редиректы с www, 5 посадочных страниц, Schema.org LegalService, семантическое ядро на 100 запросов и подготовка страниц под цитирование AI-поиском.",
+      "detail_url": "cases/anvgarant.html",
+      "api_url": "api/cases/anvgarant.json"
+    }
+  ]
+}

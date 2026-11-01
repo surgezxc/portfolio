@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Risk Desk — Анализатор рисков оттока хостинга | Владислав Ходарев</title>
+  <meta name="description" content="Подробный технический разбор системы Risk Desk: FastAPI, React, Docker, скоринг риска оттока клиентов хостинга, прогнозирование непродлений и оценка потерь.">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <script>
+    (function() {
+      var saved = localStorage.getItem("portfolio-theme");
+      var isDark = saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches);
+      var theme = isDark ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", theme);
+      document.documentElement.style.colorScheme = theme;
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    .case-page { padding: 48px 0 96px; }
+    .back-nav { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); text-decoration: none; font-weight: 600; font-size: 15px; margin-bottom: 24px; transition: color 200ms ease; }
+    .back-nav:hover { color: var(--accent); }
+    .case-hero { margin-bottom: 48px; }
+    .case-title { font-size: clamp(38px, 6vw, 64px); margin: 8px 0 16px; }
+    .case-subtitle { font-size: 1.25rem; color: var(--muted); max-width: 44rem; line-height: 1.5; margin: 0 0 24px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+    .tag { background: var(--paper); border: 1px solid var(--line); padding: 6px 14px; border-radius: 999px; font-size: 14px; font-weight: 600; }
+    .tag.accent { background: var(--accent-fill); color: #fff; border-color: transparent; }
+    .case-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 48px; align-items: start; }
+    .case-body { font-size: 1.08rem; line-height: 1.7; color: var(--ink); }
+    .case-body h2 { font-size: 28px; margin: 40px 0 16px; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+    .case-body h3 { font-size: 20px; margin: 28px 0 12px; }
+    .case-body ul { padding-left: 1.3rem; margin: 12px 0 24px; }
+    .case-body li { margin-bottom: 8px; }
+    .case-sidebar { position: sticky; top: 80px; display: flex; flex-direction: column; gap: 24px; }
+    .card-box { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 24px; box-shadow: var(--shadow); }
+    .card-box h3 { margin: 0 0 14px; font-size: 17px; font-family: var(--display); }
+    .shots-grid { display: grid; grid-template-columns: 1fr; gap: 24px; margin: 24px 0 40px; }
+    .shot-card { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); }
+    .shot-card img { width: 100%; height: auto; display: block; }
+    .shot-card p { padding: 14px 18px; margin: 0; font-size: 14px; color: var(--muted); line-height: 1.4; }
+    .formula-box { background: var(--paper); border-left: 4px solid var(--accent); padding: 16px 20px; margin: 20px 0; border-radius: 0 12px 12px 0; border: 1px solid var(--line); border-left-width: 4px; }
+    .arch-diagram { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 24px; margin: 24px 0 32px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 16px; }
+    .arch-flow { display: flex; align-items: stretch; justify-content: space-between; gap: 12px; }
+    .arch-node { flex: 1; background: var(--canvas); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 6px; }
+    .arch-node strong { font-family: var(--display); font-size: 15px; color: var(--ink); }
+    .arch-node span { font-size: 13px; font-weight: 600; color: var(--accent); }
+    .arch-node small { font-size: 12px; color: var(--muted); line-height: 1.35; }
+    .arch-arrow { display: flex; align-items: center; justify-content: center; color: var(--accent); font-weight: 700; font-size: 18px; }
+    .case-footer-nav { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); padding-top: 36px; margin-top: 64px; }
+    @media (max-width: 900px) {
+      .case-grid { grid-template-columns: 1fr; }
+      .case-sidebar { position: static; }
+      .arch-flow { flex-direction: column; }
+      .arch-arrow { transform: rotate(90deg); margin: 4px 0; }
+    }
+  </style>
+</head>
+<body>
+  <header class="bar">
+    <div class="bar-inner">
+      <a class="brand" href="../#top">Владислав Ходарев</a>
+      <nav class="nav" aria-label="Проекты">
+        <a href="dogs.html">Собачники</a>
+        <a href="churn.html" aria-current="true">Отток</a>
+        <a href="provans.html">Прованс</a>
+        <a href="bridge.html">Мост</a>
+      </nav>
+      <div class="header-controls">
+        <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Сменить тему" title="Тема">
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap case-page">
+    <a href="../#churn" class="back-nav">← Вернуться ко всем проектам</a>
+
+    <section class="case-hero">
+      <p class="kicker">Fullstack & Аналитика · Хакатон РНД</p>
+      <h1 class="case-title">Risk Desk · Анализатор рисков оттока</h1>
+      <p class="case-subtitle">Аналитическая веб-система для маркетинга и службы удержания хостинг-провайдера: динамический скоринг клиентов, финансовая оценка потерь и прогнозирование непродлений.</p>
+      
+      <div class="tags">
+        <span class="tag accent">FastAPI</span>
+        <span class="tag">Python 3.11</span>
+        <span class="tag">React</span>
+        <span class="tag">TypeScript</span>
+        <span class="tag">Docker Compose</span>
+        <span class="tag">SQLite / SQLAlchemy</span>
+        <span class="tag">Keycloak SSO</span>
+        <span class="tag">Pydantic v2</span>
+      </div>
+    </section>
+
+    <div class="case-grid">
+      <article class="case-body">
+        <h2>1. Бизнес-контекст и решаемая задача</h2>
+        <p>Кейс разработан в рамках Хакатона РНД (уровень Middle). В бизнесе хостинг-провайдеров удержание существующих клиентов в 5–7 раз дешевле привлечения новых. Однако служба поддержки и retention-маркетинг обычно реагируют постфактум — когда услуга уже не продлена.</p>
+        <p><strong>Система Risk Desk отвечает на 3 главных вопроса бизнеса:</strong></p>
+        <ul>
+          <li><strong>Кому писать в первую очередь?</strong> Формирование рейтинга клиентов по рассчитанному баллу риска (0–100) и фильтрация по срочности (ближайшие 7, 14, 30 дней).</li>
+          <li><strong>Почему клиент уходит?</strong> Наглядная декомпозиция причин: нехватка баланса на счете, отключенный автоплатеж, скорое окончание дорогой услуги или падение активности.</li>
+          <li><strong>Сколько денег на кону?</strong> Точная денежная оценка риска (Expected Financial Loss) в евро и рублях, показывающая реальный объем выручки под угрозой.</li>
+        </ul>
+
+        <h2>2. Математическая модель и расчёт риска</h2>
+        <div class="formula-box">
+          <strong>Многофакторный взвешенный скоринг:</strong><br>
+          Каждому клиенту начисляется нормализованный балл риска (Risk Score) от 0 до 100 на основе весов факторов: срока до истечения услуги, достаточности средств на балансе, флага автопродления и стоимости услуг.
+        </div>
+        <p><strong>Ползунки весов в реальном времени:</strong> Особенность решения — веб-панель настроек модели. Маркетолог или аналитик может прямо в интерфейсе изменить вес любого фактора (например, придать больший приоритет клиентам с отключенным автопродлением), и система на лету пересчитывает скоринг всей клиентской базы без перезапуска сервера.</p>
+        <p><strong>Прогноз непродлений:</strong> Встроенный модуль анализа временных рядов сопоставляет исторический процент непродления услуг и строит прогнозный тренд на следующие 30 дней.</p>
+
+        <h2>3. Архитектура сервиса и потоки данных</h2>
+        <div class="arch-diagram">
+          <div class="arch-flow">
+            <div class="arch-node">
+              <strong>React 18 SPA</strong>
+              <span>Frontend Layer</span>
+              <small>TypeScript · Tailwind · динамические слайдеры весов, графики и когорты</small>
+            </div>
+            <div class="arch-arrow">⇄</div>
+            <div class="arch-node" style="border-color: var(--accent); background: color-mix(in srgb, var(--accent) 7%, var(--canvas));">
+              <strong>FastAPI Gateway</strong>
+              <span>API & Business Logic</span>
+              <small>Pydantic v2 схемы, асинхронный роутинг, скоринговый модуль 0–100, прогноз ARIMA</small>
+            </div>
+            <div class="arch-arrow">⇄</div>
+            <div class="arch-node">
+              <strong>Data & Identity</strong>
+              <span>Storage & Auth</span>
+              <small>SQLite / SQLAlchemy 2.0 (клиенты и услуги) + Keycloak SSO (OAuth2 / OIDC)</small>
+            </div>
+          </div>
+          <p style="margin: 0; font-size: 13px; color: var(--muted); text-align: center; border-top: 1px dashed var(--line); padding-top: 12px;">Полная контейнеризация стека: запуск в один клик через <code>docker compose up --build</code></p>
+        </div>
+        <ul>
+          <li><strong>Backend:</strong> Асинхронный REST API на FastAPI и Python 3.11. Строгая валидация входящих и исходящих схем данных через Pydantic v2, работа с базой данных через SQLAlchemy 2.0. Документация OpenAPI / Swagger генерируется автоматически.</li>
+          <li><strong>Frontend:</strong> Современный SPA на React, TypeScript и Vite. Быстрый поиск, динамическая сортировка, компонентная верстка с поддержкой мобильных устройств и планшетов. Экспорт отфильтрованных когорт в CSV для дальнейшей работы в CRM или отправки email-рассылок.</li>
+          <li><strong>Авторизация и безопасность:</strong> Поддержка корпоративного SSO через Keycloak (OAuth2 / OIDC), а также быстрый беспарольный вход для жюри по QR-коду и JWT.</li>
+          <li><strong>Инфраструктура:</strong> Единая сборка через Docker Compose — запуск бекенда, фронтенда и базы данных одной командой <code>docker compose up --build</code>.</li>
+        </ul>
+
+        <h2>4. Интерфейс системы</h2>
+        <div class="shots-grid">
+          <div class="shot-card">
+            <img src="../img/churn-overview.png" alt="Сводный дашборд" loading="lazy">
+            <p><strong>Сводный дашборд:</strong> ключевые метрики, ожидаемые финансовые потери, доля платежей под риском и 30-дневный прогноз.</p>
+          </div>
+          <div class="shot-card">
+            <img src="../img/churn-clients.png" alt="Список клиентов и фильтры" loading="lazy">
+            <p><strong>Клиенты под риском:</strong> фильтрация по порогу срочности (7/14/30 дней), поиск по имени и сумме риска, сортировка.</p>
+          </div>
+          <div class="shot-card">
+            <img src="../img/churn-client.png" alt="Карточка клиента с факторами риска" loading="lazy">
+            <p><strong>Карточка клиента:</strong> детальная раскладка баллов, статус автопродления, баланс и перечень подключенных услуг.</p>
+          </div>
+          <div class="shot-card">
+            <img src="../img/churn-forecast.png" alt="График прогнозирования" loading="lazy">
+            <p><strong>График непродлений:</strong> сопоставление фактических исторических данных и прогнозных значений.</p>
+          </div>
+          <div class="shot-card">
+            <img src="../img/churn-settings.png" alt="Интерактивные ползунки модели" loading="lazy">
+            <p><strong>Кастомизация модели:</strong> регулировка влияния весов факторов риска с помощью ползунков в реальном времени.</p>
+          </div>
+          <div class="shot-card">
+            <img src="../img/churn-mobile.png" alt="Мобильная версия панели" loading="lazy">
+            <p><strong>Мобильная адаптивность:</strong> полноценное отображение списков и карточек на узких экранах смартфонов.</p>
+          </div>
+        </div>
+
+        <h2>5. Результаты и эффекты</h2>
+        <p>Создан полноценный продакшн-ready аналитический инструмент, готовый к развертыванию на инфраструктуре любого хостинга. Система позволяет снизить отток клиентов на ранней стадии за счет автоматического выявления критических аккаунтов за 7–14 дней до срока платежа.</p>
+      </article>
+
+      <aside class="case-sidebar">
+        <div class="card-box">
+          <h3>Параметры проекта</h3>
+          <dl class="facts">
+            <div><dt>Уровень</dt><dd>Middle (Хакатон)</dd></div>
+            <div><dt>Backend</dt><dd>FastAPI & Python</dd></div>
+            <div><dt>Frontend</dt><dd>React & TypeScript</dd></div>
+            <div><dt>Деплой</dt><dd>Docker Compose</dd></div>
+            <div><dt>Модель</dt><dd>Risk Score 0-100</dd></div>
+            <div><dt>Экспорт</dt><dd>CSV / Excel</dd></div>
+          </dl>
+        </div>
+
+        <div class="card-box">
+          <h3>Ключевой функционал</h3>
+          <ul style="margin: 0; padding-left: 1.2rem; font-size: 14px; color: var(--muted);">
+            <li>Приоритезация клиентов по сумме риска</li>
+            <li>Объяснение причин (Explainable AI)</li>
+            <li>Регулировка весов ползунками</li>
+            <li>Прогноз непродлений на 30 дней</li>
+            <li>SSO Keycloak и вход по QR-коду</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+
+    <div class="case-footer-nav">
+      <a href="dogs.html" class="back-nav">← Предыдущий кейс: Собачники</a>
+      <a href="provans.html" class="live">Следующий кейс: Прованс →</a>
+    </div>
+  </main>
+
+  <script>
+    const themeBtn = document.getElementById("theme-toggle");
+    if (themeBtn) {
+      themeBtn.addEventListener("click", () => {
+        const current = document.documentElement.getAttribute("data-theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        const next = current === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", next);
+        document.documentElement.style.colorScheme = next;
+        localStorage.setItem("portfolio-theme", next);
+      });
+    }
+  </script>
+</body>
+</html>

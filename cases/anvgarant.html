@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SEO &amp; GEO Оптимизация: АНВ Гарант | Владислав Ходарев</title>
+  <meta name="description" content="Кейс технического аудита, поисковой оптимизации и GEO (Generative Engine Optimization) для сайта агентства недвижимости gk-anvgarant.ru: первичный HTML без JS, микроразметка Schema.org, семантическое ядро и адаптация под Яндекс Нейро.">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <script>
+    (function() {
+      var saved = localStorage.getItem("portfolio-theme");
+      var isDark = saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches);
+      var theme = isDark ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", theme);
+      document.documentElement.style.colorScheme = theme;
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    .case-page { padding: 48px 0 96px; }
+    .back-nav { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); text-decoration: none; font-weight: 600; font-size: 15px; margin-bottom: 24px; transition: color 200ms ease; }
+    .back-nav:hover { color: var(--accent); }
+    .case-hero { margin-bottom: 48px; }
+    .case-title { font-size: clamp(34px, 5.5vw, 56px); margin: 8px 0 16px; }
+    .case-subtitle { font-size: 1.25rem; color: var(--muted); max-width: 46rem; line-height: 1.5; margin: 0 0 24px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+    .tag { background: var(--paper); border: 1px solid var(--line); padding: 6px 14px; border-radius: 999px; font-size: 14px; font-weight: 600; }
+    .tag.accent { background: var(--accent-fill); color: #fff; border-color: transparent; }
+    .case-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 48px; align-items: start; }
+    .case-body { font-size: 1.08rem; line-height: 1.7; color: var(--ink); }
+    .case-body h2 { font-size: 26px; margin: 40px 0 16px; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+    .case-body h3 { font-size: 20px; margin: 28px 0 12px; }
+    .case-body ul { padding-left: 1.3rem; margin: 12px 0 24px; }
+    .case-body li { margin-bottom: 8px; }
+    .case-sidebar { position: sticky; top: 80px; display: flex; flex-direction: column; gap: 24px; }
+    .card-box { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 24px; box-shadow: var(--shadow); }
+    .card-box h3 { margin: 0 0 14px; font-size: 17px; font-family: var(--display); }
+    .checklist { list-style: none; padding: 0; margin: 16px 0 24px; }
+    .checklist li { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; font-size: 15px; line-height: 1.5; }
+    .checklist-icon { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: #10b98122; color: #10b981; font-weight: 700; font-size: 13px; margin-top: 2px; }
+    .formula-box { background: var(--paper); border-left: 4px solid var(--accent); padding: 16px 20px; margin: 20px 0; border-radius: 0 12px 12px 0; border: 1px solid var(--line); border-left-width: 4px; }
+    .arch-diagram { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 24px; margin: 24px 0 32px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 16px; }
+    .arch-flow { display: flex; align-items: stretch; justify-content: space-between; gap: 12px; }
+    .arch-node { flex: 1; background: var(--canvas); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 6px; }
+    .arch-node strong { font-family: var(--display); font-size: 15px; color: var(--ink); }
+    .arch-node span { font-size: 13px; font-weight: 600; color: var(--accent); }
+    .arch-node small { font-size: 12px; color: var(--muted); line-height: 1.35; }
+    .arch-arrow { display: flex; align-items: center; justify-content: center; color: var(--accent); font-weight: 700; font-size: 18px; }
+    .preview-image-box { border: 1px solid var(--line); border-radius: 16px; overflow: hidden; margin: 24px 0 32px; box-shadow: var(--shadow); }
+    .preview-image-box img { width: 100%; height: auto; display: block; }
+    .case-footer-nav { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); padding-top: 36px; margin-top: 64px; }
+    @media (max-width: 900px) {
+      .case-grid { grid-template-columns: 1fr; }
+      .case-sidebar { position: static; }
+      .arch-flow { flex-direction: column; }
+      .arch-arrow { transform: rotate(90deg); margin: 4px 0; }
+    }
+  </style>
+</head>
+<body>
+  <header class="bar">
+    <div class="bar-inner">
+      <a class="brand" href="../#top">Владислав Ходарев</a>
+      <nav class="nav" aria-label="Навигация">
+        <a href="../#board">Все проекты</a>
+        <a href="../#how">О подходе</a>
+        <a href="https://github.com/surgezxc" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+      </nav>
+      <div class="bar-controls">
+        <button type="button" class="action-btn" id="theme-toggle" aria-label="Сменить тему">
+          <span class="theme-icon" aria-hidden="true">🌓</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap case-page">
+    <a href="../#anvgarant" class="back-nav">← Назад к портфолио</a>
+
+    <header class="case-hero">
+      <p class="kicker">Technical SEO &amp; Generative Engine Optimization (GEO)</p>
+      <h1 class="case-title">SEO &amp; GEO Оптимизация: АНВ Гарант</h1>
+      <p class="case-subtitle">
+        Глубокий технический аудит сайта агентства недвижимости (gk-anvgarant.ru), перенос критического контента из JS в первичный HTML, микроразметка Schema.org, кластеризация 100 запросов и подготовка страниц под прямое цитирование в Яндекс Нейро и Алисе.
+      </p>
+
+      <div class="tags">
+        <span class="tag accent">Technical SEO</span>
+        <span class="tag accent">GEO (AI-Search)</span>
+        <span class="tag">Яндекс Нейро &amp; Алиса</span>
+        <span class="tag">Schema.org LegalService</span>
+        <span class="tag">Топвизор (100 фраз)</span>
+        <span class="tag">Локальное SEO (Карты, 2ГИС)</span>
+        <span class="tag">cURL Verification 10/10</span>
+      </div>
+    </header>
+
+    <div class="case-grid">
+      <article class="case-body">
+        <div class="preview-image-box">
+          <img src="../img/anvgarant-preview.svg" alt="Превью технического аудита и GEO оптимизации gk-anvgarant.ru" loading="lazy">
+        </div>
+
+        <h2>1. Контекст и исходный аудит сайта</h2>
+        <p>
+          Сайт <strong>gk-anvgarant.ru</strong> представляет группу компаний «АНВ Гарант» — агентство недвижимости и правового сопровождения сделок с филиалами в Новороссийске и Геленджике. Исходный срез сайта выявил системные проблемы, препятствующие как классическому ранжированию в Яндексе и Google, так и попаданию в ответы современных LLM-поисковиков (блок «Нейро» Яндекса, ответы голосового помощника Алисы):
+        </p>
+        <ul>
+          <li><strong>Скрытый контент (JS Client-Side Rendering):</strong> Без исполнения клиентских скриптов робот видел только одну карточку услуги («Юристы»). Остальные 4 направления и 11 ключевых ответов FAQ лежали внутри JS-кода и не индексировались первичным краулером.</li>
+          <li><strong>Дублирование зеркал:</strong> Домен <code>https://www.gk-anvgarant.ru/</code> отвечал кодом 200 вместо 301-редиректа на канонический адрес без www, размывая ссылочный вес и вызывая канибализацию страниц.</li>
+          <li><strong>Фактологические противоречия:</strong> На сайте утверждалось: <em>«Компания основана в 2021 году и уже 5 лет помогает...»</em>, в то время как по данным ЕГРЮЛ организация зарегистрирована в 2025 году. Подобные нестыковки мгновенно отсекаются фактологическими фильтрами поисковых систем (E-E-A-T) и нейросетевыми суммаризаторами.</li>
+          <li><strong>Отсутствие посадочных страниц:</strong> Все ключевые услуги ютились на одном одностраничнике без ЧПУ, что не позволяло продвигаться по целевым транзакционным запросам.</li>
+        </ul>
+
+        <h2>2. Архитектура: Традиционное SEO vs Generative Engine Optimization (GEO)</h2>
+        <p>
+          В современной поисковой выдаче просто быть в органической десятке недостаточно: первое место занимает блок Директа, а над списком ссылок всё чаще разворачивается блок <strong>Яндекс Нейро</strong> или ответ <strong>Алисы</strong>. Для гарантированного присутствия бизнес должен оптимизироваться сразу в двух плоскостях:
+        </p>
+
+        <div class="arch-diagram">
+          <div class="arch-flow">
+            <div class="arch-node">
+              <span>01. Классический краулер</span>
+              <strong>Server-Side HTML &amp; Schema</strong>
+              <small>Быстрый первичный ответ 200, отсутствие зависимости от выполнения JS, канонические теги и микроразметка LegalService.</small>
+            </div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-node">
+              <span>02. Локальный граф</span>
+              <strong>Синхронизация NAP</strong>
+              <small>Единый адрес (ул. Исаева, 2Б), телефон и реквизиты ООО в Яндекс Бизнесе, Яндекс Картах и 2ГИС.</small>
+            </div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-node">
+              <span>03. Нейросетевой AI-индекс</span>
+              <strong>GEO: Факты и Прямой Ответ</strong>
+              <small>Первые 4–6 фраз страницы дают конкретный ответ (кто, город, цена «от», условия). Нейро цитирует сайт как источник истины.</small>
+            </div>
+          </div>
+        </div>
+
+        <h2>3. Техническое ТЗ: 10 закрытых пунктов</h2>
+        <p>
+          Составил детальное инженерное ТЗ для разработчиков и лично провёл финальную валидацию через curl и инспекцию серверных заголовков:
+        </p>
+        <ul class="checklist">
+          <li>
+            <span class="checklist-icon">✓</span>
+            <div><strong>Тексты услуг и FAQ в первом HTML:</strong> Полный перенос описания всех 5 услуг (Юристы, Сделки, Анализ коммерции, Продажа коммерции, Запуск агентства) и 11 развёрнутых ответов FAQ непосредственно в HTML-тело до выполнения скриптов.</div>
+          </li>
+          <li>
+            <span class="checklist-icon">✓</span>
+            <div><strong>Сквозной 301-редирект с www:</strong> Запросы с <code>www.gk-anvgarant.ru</code> в один переход перенаправляются на основной адрес с сохранением всего URI и GET-параметров (<code>?utm=...</code>).</div>
+          </li>
+          <li>
+            <span class="checklist-icon">✓</span>
+            <div><strong>Канонизация (Canonical):</strong> На главной прописан <code>&lt;link rel="canonical" href="https://gk-anvgarant.ru/" /&gt;</code>, а на каждой внутренней странице — собственный уникальный canonical со слэшем.</div>
+          </li>
+          <li>
+            <span class="checklist-icon">✓</span>
+            <div><strong>Пять целевых посадочных страниц:</strong> Развёрнуты страницы <code>/yuristy/</code>, <code>/sdelki/</code>, <code>/analiz-kommercii/</code>, <code>/prodazha-kommercii/</code>, <code>/zapusk-agentstva/</code> с индивидуальными Title, H1 и ценами «от».</div>
+          </li>
+          <li>
+            <span class="checklist-icon">✓</span>
+            <div><strong>Чистая карта сайта (sitemap.xml):</strong> Содержит ровно 6 канонических адресов с корректным <code>lastmod</code>, технические разделы исключены.</div>
+          </li>
+          <li>
+            <span class="checklist-icon">✓</span>
+            <div><strong>Фактологическая чистота:</strong> Удалены некорректные исторические заявления, данные приведены в строгое соответствие с выпиской из ЕГРЮЛ.</div>
+          </li>
+          <li>
+            <span class="checklist-icon">✓</span>
+            <div><strong>Микроразметка Schema.org:</strong> Разметка <code>LegalService</code> содержит координаты офиса, фактический адрес, телефон, часы работы и диапазон цен.</div>
+          </li>
+          <li>
+            <span class="checklist-icon">✓</span>
+            <div><strong>Локальная привязка (NAP):</strong> Единый адрес офиса (Новороссийск, ул. Исаева, 2Б) и рабочий номер +7 (989) 030-13-33 синхронизированы в коде и на картах.</div>
+          </li>
+          <li>
+            <span class="checklist-icon">✓</span>
+            <div><strong>Семантическое ядро (Топвизор):</strong> Собрано и кластеризовано 100 высокочастотных и среднечастотных коммерческих запросов с гео-привязкой к Новороссийску и Геленджику.</div>
+          </li>
+          <li>
+            <span class="checklist-icon">✓</span>
+            <div><strong>Аналитика и мониторинг:</strong> Настроены цели и счётчики Яндекс Метрики и подтверждены права в Яндекс Вебмастере.</div>
+          </li>
+        </ul>
+
+        <h2>4. Принципы GEO (Generative Engine Optimization)</h2>
+        <div class="formula-box">
+          <p style="margin: 0; font-weight: 600; color: var(--ink);">
+            💡 <strong>Ключевое правило цитируемости в AI-выдаче:</strong><br>
+            Нейросеть (Яндекс Нейро, ChatGPT Search, Perplexity) цитирует те источники, где ответ на вопрос сформулирован плотно, фактологично и не требует домысливания или парсинга динамического JS-DOM.
+          </p>
+        </div>
+        <p>Для гарантированного попадания в синтезированные ответы Алисы и Нейро были заложены следующие правила конструирования контента:</p>
+        <ul>
+          <li><strong>Прямой ответ в шапке (Direct Answer):</strong> Первые 4–6 предложений каждой страницы услуги сразу отвечают на базовые вопросы: кто оказывает услугу, в каком городе, что конкретно входит в проверку, цена «от» и чего проверка юридически гарантировать не может.</li>
+          <li><strong>Вопросительные заголовки (Conversational H2/H3):</strong> Подзаголовки сформулированы так, как пользователи обращаются к голосовым ассистентам (например, <em>«Как проверить юридическую чистоту квартиры перед покупкой в Новороссийске»</em>).</li>
+          <li><strong>Сверка внешних источников:</strong> Алгоритмы Яндекса сопоставляют данные сайта с карточкой организации в Яндекс Картах и 2ГИС. Любое несовпадение телефона или адреса понижает доверие модели к источнику.</li>
+        </ul>
+
+        <h2>5. Итоги и верификация</h2>
+        <p>
+          Вся цепочка внедрения была проверена серией автоматических тестов через <code>curl -I</code> и рендер-валидаторы. Все 10 пунктов ТЗ подтверждены на живом домене с результатом <strong>10 из 10</strong>. Сайт полностью подготовлен к индексации, устранены риски фильтрации за дубли контента, а структура страниц обеспечивает максимальную цитируемость в генеративной выдаче.
+        </p>
+      </article>
+
+      <aside class="case-sidebar">
+        <div class="card-box">
+          <h3>Паспорт проекта</h3>
+          <p style="font-size: 14px; margin: 0 0 10px; color: var(--muted);"><strong>Клиент:</strong> ООО «АНВ Гарант»</p>
+          <p style="font-size: 14px; margin: 0 0 10px; color: var(--muted);"><strong>Отрасль:</strong> Недвижимость и юридическое сопровождение</p>
+          <p style="font-size: 14px; margin: 0 0 10px; color: var(--muted);"><strong>География:</strong> Новороссийск, Геленджик, РФ</p>
+          <p style="font-size: 14px; margin: 0 0 10px; color: var(--muted);"><strong>Сайт:</strong> <a href="https://gk-anvgarant.ru" target="_blank" rel="noopener noreferrer" style="color:var(--accent); text-decoration:none;">gk-anvgarant.ru ↗</a></p>
+          <p style="font-size: 14px; margin: 0; color: var(--muted);"><strong>Статус:</strong> 10 / 10 пунктов ТЗ сдано</p>
+        </div>
+
+        <div class="card-box">
+          <h3>Инструменты аудита</h3>
+          <ul style="padding-left: 1.2rem; margin: 0; font-size: 14px; color: var(--ink);">
+            <li>Топвизор (100 фраз)</li>
+            <li>Яндекс Вебмастер</li>
+            <li>Яндекс Метрика</li>
+            <li>Schema.org Validator</li>
+            <li>Яндекс Карты &amp; 2ГИС</li>
+            <li>cURL &amp; HTTP Header Audit</li>
+          </ul>
+        </div>
+
+        <div class="card-box">
+          <h3>JSON API Endpoint</h3>
+          <p style="font-size: 14px; color: var(--muted); margin: 0 0 12px;">Спецификация кейса доступна в машиночитаемом формате REST API:</p>
+          <a href="../api/cases/anvgarant.json" target="_blank" style="display:inline-block; font-family:monospace; font-size:13px; color:var(--accent); text-decoration:none; background:var(--canvas); padding:6px 12px; border-radius:6px; border:1px solid var(--line);">
+            GET /api/cases/anvgarant.json ↗
+          </a>
+        </div>
+      </aside>
+    </div>
+
+    <nav class="case-footer-nav" aria-label="Другие кейсы">
+      <a href="bridge.html" class="back-nav">← Мост Max ↔ Telegram</a>
+      <a href="dogs.html" class="back-nav">Собачники (Flutter) →</a>
+    </nav>
+  </main>
+</body>
+</html>

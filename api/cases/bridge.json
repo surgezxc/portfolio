@@ -1,0 +1,15 @@
+{
+  "id": "bridge",
+  "title": "Мост Max ↔ Telegram",
+  "category": "Backend & Protocol Integration",
+  "stack": ["Python 3.10+", "asyncio", "PyMax 2.4.1", "Telegram Bot API", "SQLite"],
+  "problem": "Отсутствие официального Bot API у мессенджера Max для интеграции переписки с Telegram-чатами операторов.",
+  "features": [
+    "Прямой протокольный сокет-клиент PyMax 2.4.1",
+    "Двусторонняя маршрутизация по парным чатам CHAT_MAP",
+    "Пересылка медиавложений: изображений и голосовых сообщений",
+    "Принудительное отключение встроенной телеметрии библиотеки (telemetry=False)",
+    "Персистентность сессии в локальной SQLite БД без повторных SMS"
+  ],
+  "detail_page": "cases/bridge.html"
+}

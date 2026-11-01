@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Мост Max ↔ Telegram — Асинхронный шлюз на Python | Владислав Ходарев</title>
+  <meta name="description" content="Подробный технический разбор асинхронного моста между чатами Max и Telegram на Python: протокольный клиент PyMax, двунаправленная маршрутизация CHAT_MAP, пересылка медиа и отключение телеметрии.">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <script>
+    (function() {
+      var saved = localStorage.getItem("portfolio-theme");
+      var isDark = saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches);
+      var theme = isDark ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", theme);
+      document.documentElement.style.colorScheme = theme;
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    .case-page { padding: 48px 0 96px; }
+    .back-nav { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); text-decoration: none; font-weight: 600; font-size: 15px; margin-bottom: 24px; transition: color 200ms ease; }
+    .back-nav:hover { color: var(--accent); }
+    .case-hero { margin-bottom: 48px; }
+    .case-title { font-size: clamp(38px, 6vw, 64px); margin: 8px 0 16px; }
+    .case-subtitle { font-size: 1.25rem; color: var(--muted); max-width: 44rem; line-height: 1.5; margin: 0 0 24px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+    .tag { background: var(--paper); border: 1px solid var(--line); padding: 6px 14px; border-radius: 999px; font-size: 14px; font-weight: 600; }
+    .tag.accent { background: var(--accent-fill); color: #fff; border-color: transparent; }
+    .case-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 48px; align-items: start; }
+    .case-body { font-size: 1.08rem; line-height: 1.7; color: var(--ink); }
+    .case-body h2 { font-size: 28px; margin: 40px 0 16px; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+    .case-body h3 { font-size: 20px; margin: 28px 0 12px; }
+    .case-body ul { padding-left: 1.3rem; margin: 12px 0 24px; }
+    .case-body li { margin-bottom: 8px; }
+    .case-sidebar { position: sticky; top: 80px; display: flex; flex-direction: column; gap: 24px; }
+    .card-box { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 24px; box-shadow: var(--shadow); }
+    .card-box h3 { margin: 0 0 14px; font-size: 17px; font-family: var(--display); }
+    .diagram-box { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 28px; margin: 24px 0; box-shadow: var(--shadow); }
+    .flow-steps { display: flex; align-items: center; justify-content: space-between; gap: 12px; text-align: center; }
+    .flow-node { flex: 1; background: var(--canvas); border: 1px solid var(--line); padding: 16px; border-radius: 12px; font-weight: 650; }
+    .flow-arrow { color: var(--accent); font-size: 24px; font-weight: bold; }
+    .code-block { background: var(--mat); color: #f4f4f5; padding: 18px; border-radius: 12px; font-family: monospace; font-size: 14px; overflow-x: auto; margin: 16px 0; }
+    .case-footer-nav { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); padding-top: 36px; margin-top: 64px; }
+    @media (max-width: 900px) {
+      .case-grid { grid-template-columns: 1fr; }
+      .case-sidebar { position: static; }
+      .flow-steps { flex-direction: column; }
+      .flow-arrow { transform: rotate(90deg); margin: 4px 0; }
+    }
+  </style>
+</head>
+<body>
+  <header class="bar">
+    <div class="bar-inner">
+      <a class="brand" href="../#top">Владислав Ходарев</a>
+      <nav class="nav" aria-label="Проекты">
+        <a href="dogs.html">Собачники</a>
+        <a href="churn.html">Отток</a>
+        <a href="provans.html">Прованс</a>
+        <a href="bridge.html" aria-current="true">Мост</a>
+      </nav>
+      <div class="header-controls">
+        <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Сменить тему" title="Тема">
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap case-page">
+    <a href="../#bridge" class="back-nav">← Вернуться ко всем проектам</a>
+
+    <section class="case-hero">
+      <p class="kicker">Backend & Интеграции · Python</p>
+      <h1 class="case-title">Мост Max ↔ Telegram</h1>
+      <p class="case-subtitle">Асинхронный сервис-шлюз на Python для надежной двусторонней пересылки сообщений, фото и голосовых между закрытым мессенджером Max и чатами Telegram.</p>
+      
+      <div class="tags">
+        <span class="tag accent">Python 3.10+</span>
+        <span class="tag">asyncio</span>
+        <span class="tag">PyMax 2.4.1</span>
+        <span class="tag">Telegram Bot API</span>
+        <span class="tag">Socket Protocol</span>
+        <span class="tag">Privacy & No Telemetry</span>
+        <span class="tag">SQLite Session</span>
+      </div>
+    </section>
+
+    <div class="case-grid">
+      <article class="case-body">
+        <h2>1. Проблема и технический вызов</h2>
+        <p>Мессенджер Max не предоставляет открытого официального Bot API для внешней интеграции с корпоративными системами и сторонними чатами. Командам, использующим Telegram для оперативной коммуникации и поддержки, приходилось вручную дублировать сообщения или постоянно держать открытыми два разных приложения.</p>
+        <p><strong>Задача:</strong> создать стабильный бекенд-мост, работающий напрямую с протоколом Max, маршрутизирующий переписку строго по заданным парам комнат и обеспечивающий возможность отвечать в Telegram так, чтобы ответ бесшовно возвращался в исходный тред Max.</p>
+
+        <h2>2. Архитектура и схема потока данных</h2>
+        <div class="diagram-box">
+          <div class="flow-steps">
+            <div class="flow-node">
+              <span style="font-size: 13px; color: var(--muted); display: block;">Источник</span>
+              Чат в мессенджере Max
+            </div>
+            <div class="flow-arrow">⇄</div>
+            <div class="flow-node" style="border-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, var(--paper));">
+              <span style="font-size: 13px; color: var(--accent); display: block;">Асинхронный шлюз</span>
+              Python-мост (PyMax + Bot API)
+            </div>
+            <div class="flow-arrow">⇄</div>
+            <div class="flow-node">
+              <span style="font-size: 13px; color: var(--muted); display: block;">Приемник</span>
+              Парный чат в Telegram
+            </div>
+          </div>
+          <p style="text-align: center; font-size: 14px; color: var(--muted); margin: 18px 0 0;">Ответ оператора из Telegram автоматически возвращается в тот же исходный чат Max по ID сообщения.</p>
+        </div>
+
+        <h2>3. Ключевые инженерные решения</h2>
+        <h3>Протокольный клиент PyMax 2.4.1</h3>
+        <ul>
+          <li>Взаимодействие с серверами Max реализовано через сокетный клиент на основе реверс-инжиниринговой сборки <code>maxapi-python==2.4.1</code>.</li>
+          <li>Клиент эмулирует работу нативного мобильного приложения, обрабатывая сетевые события в асинхронном цикле <code>asyncio</code>.</li>
+        </ul>
+
+        <h3>Изоляция парных чатов (CHAT_MAP)</h3>
+        <p>В конфигурации задаются строгие пары вида <code>ID_чата_Max : ID_чата_Telegram</code>. Сообщение никогда не уходит веерно во все каналы — роутер направляет его строго в привязанный чат. При ответе в Telegram парсер считывает контекст треда и отправляет ответ в исходную комнату Max.</p>
+
+        <h3>Поддержка медиа (фотографии и аудиосообщения)</h3>
+        <p>Помимо текстовых сообщений с именами отправителей, мост перехватывает прямые временные URI медиафайлов. Если пользователь отправил скриншот или голосовую заметку, сервис скачивает файл в оперативную память и отправляет его в Telegram через соответствующие методы Bot API (<code>send_photo</code>, <code>send_voice</code>).</p>
+
+        <h3>Приватность и принудительное отключение телеметрии</h3>
+        <p>По умолчанию библиотека PyMax отправляет на серверы мессенджера внутренние события телеметрии с идентификаторами чатов и действиями пользователя. Чтобы гарантировать полную конфиденциальность и отсутствие утечек служебных данных, клиент инициализирован с жесткой блокировкой трекинга:</p>
+        
+        <div class="code-block">
+# Принудительное отключение фоновой телеметрии библиотеки
+client = Client(
+    phone=MAX_PHONE,
+    extra_config=ExtraConfig(telemetry=False)
+)
+        </div>
+
+        <h3>Персистентность сессии без повторной авторизации</h3>
+        <p>При первом запуске скрипта SMS-код вводится единожды в терминале. Криптографический токен сессии и ключи сохраняются в локальную базу данных <code>cache/session.db</code> (SQLite), благодаря чему демон можно перезапускать без прерывания рабочих процессов.</p>
+
+        <h2>4. Итоги и эксплуатация</h2>
+        <p>Сервис работает автономно в фоновом режиме Linux (systemd daemon), потребляет менее 30 МБ оперативной памяти и обеспечивает задержку доставки сообщений между мессенджерами менее 1 секунды.</p>
+      </article>
+
+      <aside class="case-sidebar">
+        <div class="card-box">
+          <h3>Спецификация сервиса</h3>
+          <dl class="facts">
+            <div><dt>Язык</dt><dd>Python 3.10+</dd></div>
+            <div><dt>Парадигма</dt><dd>Async / asyncio</dd></div>
+            <div><dt>Протокол</dt><dd>PyMax 2.4.1</dd></div>
+            <div><dt>Маршрутизация</dt><dd>Двусторонняя</dd></div>
+            <div><dt>Медиа</dt><dd>Фото и аудио</dd></div>
+            <div><dt>Телеметрия</dt><dd>Отключена</dd></div>
+          </dl>
+        </div>
+
+        <div class="card-box">
+          <h3>Безопасность</h3>
+          <ul style="margin: 0; padding-left: 1.2rem; font-size: 14px; color: var(--muted);">
+            <li>Никаких секретов в открытом коде (.env)</li>
+            <li>Отключен трекинг пользователей</li>
+            <li>Шифрованное хранение сессии</li>
+            <li>Изолированные пары чатов</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+
+    <div class="case-footer-nav">
+      <a href="provans.html" class="back-nav">← Предыдущий кейс: Прованс</a>
+      <a href="anvgarant.html" class="live">Следующий кейс: SEO &amp; GEO АНВ Гарант →</a>
+    </div>
+  </main>
+
+  <script>
+    const themeBtn = document.getElementById("theme-toggle");
+    if (themeBtn) {
+      themeBtn.addEventListener("click", () => {
+        const current = document.documentElement.getAttribute("data-theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        const next = current === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", next);
+        document.documentElement.style.colorScheme = next;
+        localStorage.setItem("portfolio-theme", next);
+      });
+    }
+  </script>
+</body>
+</html>

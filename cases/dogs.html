@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Собачники — Мобильное приложение на Flutter | Владислав Ходарев</title>
+  <meta name="description" content="Подробный технический разбор мобильного приложения Собачники: Flutter, Firebase, офлайн-режим, расчет рациона BARF, карты OpenStreetMap и локальные уведомления.">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <script>
+    (function() {
+      var saved = localStorage.getItem("portfolio-theme");
+      var isDark = saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches);
+      var theme = isDark ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", theme);
+      document.documentElement.style.colorScheme = theme;
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    .case-page { padding: 48px 0 96px; }
+    .back-nav { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); text-decoration: none; font-weight: 600; font-size: 15px; margin-bottom: 24px; transition: color 200ms ease; }
+    .back-nav:hover { color: var(--accent); }
+    .case-hero { margin-bottom: 48px; }
+    .case-title { font-size: clamp(38px, 6vw, 64px); margin: 8px 0 16px; }
+    .case-subtitle { font-size: 1.25rem; color: var(--muted); max-width: 44rem; line-height: 1.5; margin: 0 0 24px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+    .tag { background: var(--paper); border: 1px solid var(--line); padding: 6px 14px; border-radius: 999px; font-size: 14px; font-weight: 600; }
+    .tag.accent { background: var(--accent-fill); color: #fff; border-color: transparent; }
+    .case-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 48px; align-items: start; }
+    .case-body { font-size: 1.08rem; line-height: 1.7; color: var(--ink); }
+    .case-body h2 { font-size: 28px; margin: 40px 0 16px; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+    .case-body h3 { font-size: 20px; margin: 28px 0 12px; }
+    .case-body ul { padding-left: 1.3rem; margin: 12px 0 24px; }
+    .case-body li { margin-bottom: 8px; }
+    .case-sidebar { position: sticky; top: 80px; display: flex; flex-direction: column; gap: 24px; }
+    .card-box { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 24px; box-shadow: var(--shadow); }
+    .card-box h3 { margin: 0 0 14px; font-size: 17px; font-family: var(--display); }
+    .shots-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; margin: 24px 0 40px; }
+    .shot-card { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+    .shot-card img { width: 100%; height: auto; display: block; }
+    .shot-card p { padding: 12px; margin: 0; font-size: 13px; color: var(--muted); line-height: 1.4; }
+    .case-footer-nav { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); padding-top: 36px; margin-top: 64px; }
+    @media (max-width: 900px) {
+      .case-grid { grid-template-columns: 1fr; }
+      .case-sidebar { position: static; }
+    }
+  </style>
+</head>
+<body>
+  <header class="bar">
+    <div class="bar-inner">
+      <a class="brand" href="../#top">Владислав Ходарев</a>
+      <nav class="nav" aria-label="Проекты">
+        <a href="dogs.html" aria-current="true">Собачники</a>
+        <a href="churn.html">Отток</a>
+        <a href="provans.html">Прованс</a>
+        <a href="bridge.html">Мост</a>
+      </nav>
+      <div class="header-controls">
+        <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Сменить тему" title="Тема">
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap case-page">
+    <a href="../#dogs" class="back-nav">← Вернуться ко всем проектам</a>
+
+    <section class="case-hero">
+      <p class="kicker">Мобильная разработка · Flutter</p>
+      <h1 class="case-title">Собачники</h1>
+      <p class="case-subtitle">Комплексный ассистент и дневник для ответственных владельцев одной или нескольких собак: от учета здоровья и рациона до умных прогулок и экстренной ветпомощи.</p>
+      
+      <div class="tags">
+        <span class="tag accent">Flutter 3</span>
+        <span class="tag">Dart</span>
+        <span class="tag">Firebase Auth</span>
+        <span class="tag">Cloud Firestore</span>
+        <span class="tag">OpenStreetMap</span>
+        <span class="tag">Local Notifications</span>
+        <span class="tag">Offline-First</span>
+      </div>
+    </section>
+
+    <div class="case-grid">
+      <article class="case-body">
+        <h2>1. Контекст и проблема</h2>
+        <p>Уход за собакой — это не просто выгул раз в день, а множество регулярных рутинных задач: график вакцинаций, обработка от клещей и глистов, учет веса, балансировка натурального питания или подсчет порций сухого корма. Большинство приложений на рынке страдают от трех проблем: они перегружены платной подпиской, требуют постоянного скоростного интернета (что на прогулках в парках часто недоступно) или не поддерживают ведение нескольких питомцев в одном профиле.</p>
+        <p><strong>Цель проекта:</strong> сделать автономное, быстрое и надежное приложение, хранящее все данные в безопасности, но функционирующее полноценно даже без связи.</p>
+
+        <h2>2. Архитектура и технические решения</h2>
+        <h3>Офлайн-ориентированность (Offline-first)</h3>
+        <p>Приложение спроектировано так, чтобы владелец собаки не зависел от качества мобильной сети:</p>
+        <ul>
+          <li><strong>Кеширование данных:</strong> Cloud Firestore настроен с локальной персистентностью. Задачи на день, профили собак и история прогулок доступны мгновенно при холодном старте.</li>
+          <li><strong>Локальные фото прогулок:</strong> медиафайлы с прогулок сохраняются в локальном хранилище устройства, не расходуя трафик и облачную квоту пользователя.</li>
+          <li><strong>Локальные уведомления:</strong> напоминания о кормлении, таблетках и приеме ветеринара планируются через модуль <code>flutter_local_notifications</code> на системном уровне устройства, поэтому срабатывают даже при выключенном интернете и в авиарежиме.</li>
+        </ul>
+
+        <h3>Питание и калькулятор BARF</h3>
+        <p>Один из самых сложных модулей — расчет рациона:</p>
+        <ul>
+          <li>Поддержка как готовых кормов с расчетом суточной калорийности по формуле энергетической потребности (RER/MER), так и системы натурального питания <strong>BARF</strong> (Biologically Appropriate Raw Food).</li>
+          <li>Калькулятор автоматически разбивает суточный рацион на доли: мышечное мясо, мясокостное, субпродукты (печень и другие органы), овощи и клетчатку с учетом возраста, веса и активности питомца.</li>
+        </ul>
+
+        <h3>Картография и экстренная помощь (SOS)</h3>
+        <p>Интеграция с <strong>OpenStreetMap</strong> и геопозиционированием устройства:</p>
+        <ul>
+          <li>Отображение близлежащих дог-френдли локаций: ветеринарных клиник, круглосуточных аптек и зоомагазинов.</li>
+          <li>Режим <strong>«Скорая помощь»</strong>: в один клик определяет ближайшую открытую круглосуточную ветклинику, позволяет немедленно набрать номер регистратуры и строит кратчайший автомобильный или пеший маршрут.</li>
+        </ul>
+
+        <h3>Умные прогулки и локальный помощник</h3>
+        <ul>
+          <li>Трекинг времени выгула с фиксацией точек маршрута и фотодневником моментов.</li>
+          <li>Контекстный помощник, анализирующий локальные данные карточки питомца (породу, возраст, склонности к аллергии, вес) и дающий рекомендации без отправки личных данных на внешние LLM-серверы.</li>
+        </ul>
+
+        <h2>3. Галерея экранов приложения</h2>
+        <div class="shots-grid">
+          <div class="shot-card">
+            <img src="../img/dogs-home.png" alt="Главный экран" loading="lazy">
+            <p><strong>Главный экран:</strong> задачи на день, статус питомцев, ближайшие места.</p>
+          </div>
+          <div class="shot-card">
+            <img src="../img/dogs-food.png" alt="Экран питания" loading="lazy">
+            <p><strong>Питание:</strong> расчет калорийности, соотношение BARF по категориям.</p>
+          </div>
+          <div class="shot-card">
+            <img src="../img/dogs-pets.png" alt="Список питомцев" loading="lazy">
+            <p><strong>Питомцы:</strong> карточки нескольких собак в аккуратной темной теме.</p>
+          </div>
+          <div class="shot-card">
+            <img src="../img/dogs-walk.png" alt="Активная прогулка" loading="lazy">
+            <p><strong>Прогулка:</strong> таймер, точка на карте, сохранение фотоотчета.</p>
+          </div>
+          <div class="shot-card">
+            <img src="../img/dogs-map.png" alt="Карта ветклиник" loading="lazy">
+            <p><strong>Карта:</strong> ветклиники, аптеки и магазины по данным OpenStreetMap.</p>
+          </div>
+          <div class="shot-card">
+            <img src="../img/dogs-vet.png" alt="Экстренная ветпомощь" loading="lazy">
+            <p><strong>SOS-карточка:</strong> ближайшая дежурная ветклиника со звонком и маршрутом.</p>
+          </div>
+        </div>
+
+        <h2>4. Итоги и результаты</h2>
+        <p>Разработано готовое к публикации кроссплатформенное приложение с чистой модульной архитектурой на Flutter. Реализована строгая валидация ввода, поддержка системной темной и светлой темы, и полная независимость от постоянного сетевого подключения.</p>
+      </article>
+
+      <aside class="case-sidebar">
+        <div class="card-box">
+          <h3>Факты о разработке</h3>
+          <dl class="facts">
+            <div><dt>Платформа</dt><dd>iOS / Android</dd></div>
+            <div><dt>Фреймворк</dt><dd>Flutter & Dart</dd></div>
+            <div><dt>Бэкенд</dt><dd>Firebase Firestore</dd></div>
+            <div><dt>Авторизация</dt><dd>Firebase Auth</dd></div>
+            <div><dt>Картография</dt><dd>OpenStreetMap</dd></div>
+            <div><dt>Уведомления</dt><dd>System Local</dd></div>
+          </dl>
+        </div>
+
+        <div class="card-box">
+          <h3>Ключевые фичи</h3>
+          <ul style="margin: 0; padding-left: 1.2rem; font-size: 14px; color: var(--muted);">
+            <li>Неограниченное число собак</li>
+            <li>Точный калькулятор BARF</li>
+            <li>Автономная работа без сети</li>
+            <li>Кнопка экстренного вызова ветпомощи</li>
+            <li>Локальные напоминания о прививках</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+
+    <div class="case-footer-nav">
+      <a href="../#dogs" class="back-nav">← В главное меню</a>
+      <a href="churn.html" class="live">Следующий кейс: Анализатор оттока →</a>
+    </div>
+  </main>
+
+  <script>
+    const themeBtn = document.getElementById("theme-toggle");
+    if (themeBtn) {
+      themeBtn.addEventListener("click", () => {
+        const current = document.documentElement.getAttribute("data-theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        const next = current === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", next);
+        document.documentElement.style.colorScheme = next;
+        localStorage.setItem("portfolio-theme", next);
+      });
+    }
+  </script>
+</body>
+</html>

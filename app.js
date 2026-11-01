@@ -10,7 +10,7 @@ const copy = {
     kicker: "проектов",
     name: "Владислав Ходарев",
     lead: "Учусь в ДГТУ на системной аналитике. Люблю и хорошо беру на себя эту роль в реальных кейсах: разложить сложную систему по полочкам, перевести задачи бизнеса на язык архитектуры и вместе с командой довести разработку до результата. Также имею практический опыт в техническом SEO и GEO-оптимизации под Яндекс Нейро. Ниже — пять сделанных проектов.",
-    locationStatus: "📍 Ростов-на-Дону · Удалёнка / Гибрид · Полный день / Стажировка",
+    locationStatus: "Ростов-на-Дону · Удалёнка / Гибрид · Полный день / Стажировка",
     downloadCv: "PDF Резюме",
     copiedToast: "Скопировано в буфер!",
     skillsTitle: "Ключевые компетенции",
@@ -249,7 +249,7 @@ const copy = {
     kicker: "projects",
     name: "Vladislav Khodarev",
     lead: "Studying Systems Analysis at DSTU (09.03.02). I naturally embrace this role in real projects: breaking down complex domains, turning business needs into clear architecture, and shipping solid code with the team. I also have hands-on experience in technical SEO and GEO optimization for Yandex Neuro and Maps. Below are five finished projects.",
-    locationStatus: "📍 Rostov-on-Don · Remote / Hybrid · Full-time / Internship",
+    locationStatus: "Rostov-on-Don · Remote / Hybrid · Full-time / Internship",
     downloadCv: "PDF Resume",
     copiedToast: "Copied to clipboard!",
     skillsTitle: "Core Competencies",
@@ -597,10 +597,13 @@ function render(lang) {
   }
   const matrixEl = document.getElementById("skills-matrix");
   if (matrixEl) {
+    const iconAnalytics = "<svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><line x1='18' y1='20' x2='18' y2='10'></line><line x1='12' y1='20' x2='12' y2='4'></line><line x1='6' y1='20' x2='6' y2='14'></line></svg>";
+    const iconDev = "<svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><polyline points='16 18 22 12 16 6'></polyline><polyline points='8 6 2 12 8 18'></polyline></svg>";
+    const iconSeo = "<svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><circle cx='11' cy='11' r='8'></circle><line x1='21' y1='21' x2='16.65' y2='16.65'></line></svg>";
     matrixEl.innerHTML =
       "<div class='matrix-card'>" +
         "<div class='matrix-header'>" +
-          "<span class='matrix-icon'>📊</span>" +
+          "<span class='matrix-icon'>" + iconAnalytics + "</span>" +
           "<h3>" + esc(t.skillsAnalyticsTitle) + "</h3>" +
         "</div>" +
         "<div class='matrix-tags'>" +
@@ -609,7 +612,7 @@ function render(lang) {
       "</div>" +
       "<div class='matrix-card'>" +
         "<div class='matrix-header'>" +
-          "<span class='matrix-icon'>🛠</span>" +
+          "<span class='matrix-icon'>" + iconDev + "</span>" +
           "<h3>" + esc(t.skillsDevTitle) + "</h3>" +
         "</div>" +
         "<div class='matrix-tags'>" +
@@ -618,7 +621,7 @@ function render(lang) {
       "</div>" +
       "<div class='matrix-card'>" +
         "<div class='matrix-header'>" +
-          "<span class='matrix-icon'>🔍</span>" +
+          "<span class='matrix-icon'>" + iconSeo + "</span>" +
           "<h3>" + esc(t.skillsSeoTitle) + "</h3>" +
         "</div>" +
         "<div class='matrix-tags'>" +

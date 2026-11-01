@@ -32,29 +32,29 @@
 
   <!-- URL Address Bar -->
   <rect x="140" y="47" width="460" height="25" rx="6" fill="#0d0e11" stroke="#272b32" stroke-width="1"/>
-  <text x="156" y="64" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" fill="#9ca3af">🔒 gk-anvgarant.ru · SEO &amp; GEO Audit (10/10)</text>
+  <text x="156" y="64" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" fill="#9ca3af">https://gk-anvgarant.ru · SEO &amp; GEO (10/10)</text>
 
   <!-- Content Header -->
   <text x="68" y="132" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="700" fill="#f3f4f6">Технический аудит &amp; GEO Оптимизация</text>
   <text x="68" y="158" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" fill="#9ca3af">Подготовка сайта под выдачу Яндекса, карты и AI-блок «Нейро»</text>
 
   <!-- Pills / Badges -->
-  <rect x="68" y="178" width="130" height="28" rx="14" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1"/>
-  <text x="133" y="196" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="600" fill="#93c5fd">✨ Яндекс Нейро</text>
+  <rect x="68" y="178" width="120" height="28" rx="14" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1"/>
+  <text x="128" y="196" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="600" fill="#93c5fd">Яндекс Нейро</text>
 
-  <rect x="208" y="178" width="100" height="28" rx="14" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
-  <text x="258" y="196" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="600" fill="#a7f3d0">10 / 10 ТЗ</text>
+  <rect x="198" y="178" width="90" height="28" rx="14" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+  <text x="243" y="196" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="600" fill="#a7f3d0">10 / 10 ТЗ</text>
 
-  <rect x="318" y="178" width="110" height="28" rx="14" fill="#312e81" stroke="#6366f1" stroke-width="1"/>
-  <text x="373" y="196" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="600" fill="#c7d2fe">Schema.org</text>
+  <rect x="298" y="178" width="100" height="28" rx="14" fill="#312e81" stroke="#6366f1" stroke-width="1"/>
+  <text x="348" y="196" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="600" fill="#c7d2fe">Schema.org</text>
 
-  <rect x="438" y="178" width="120" height="28" rx="14" fill="#374151" stroke="#4b5563" stroke-width="1"/>
-  <text x="498" y="196" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="600" fill="#d1d5db">100 гео-фраз</text>
+  <rect x="408" y="178" width="110" height="28" rx="14" fill="#374151" stroke="#4b5563" stroke-width="1"/>
+  <text x="463" y="196" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="600" fill="#d1d5db">100 гео-фраз</text>
 
   <!-- 2 Cards Layout -->
   <!-- Card 1: Technical SEO -->
   <rect x="68" y="226" width="316" height="298" rx="12" fill="#131417" stroke="#262a30" stroke-width="1"/>
-  <text x="88" y="258" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="700" fill="#60a5fa">⚙️ Техническое SEO</text>
+  <text x="88" y="258" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="700" fill="#60a5fa">Техническое SEO</text>
 
   <circle cx="98" cy="296" r="8" fill="#064e3b"/>
   <text x="98" y="300" text-anchor="middle" font-size="11" fill="#10b981">✓</text>
@@ -78,25 +78,25 @@
 
   <!-- Card 2: GEO & AI Citations -->
   <rect x="408" y="226" width="324" height="298" rx="12" fill="#131417" stroke="#262a30" stroke-width="1"/>
-  <text x="428" y="258" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="700" fill="#a78bfa">🤖 GEO: Алиса &amp; Нейро</text>
+  <text x="428" y="258" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="700" fill="#a78bfa">GEO: Алиса &amp; Нейро</text>
 
   <circle cx="438" cy="296" r="8" fill="#312e81"/>
-  <text x="438" y="300" text-anchor="middle" font-size="11" fill="#a78bfa">★</text>
+  <text x="438" y="300" text-anchor="middle" font-size="11" fill="#a78bfa">✓</text>
   <text x="456" y="300" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="#e5e7eb">Прямой ответ 4–6 фраз в шапке</text>
 
   <circle cx="438" cy="342" r="8" fill="#312e81"/>
-  <text x="438" y="346" text-anchor="middle" font-size="11" fill="#a78bfa">★</text>
+  <text x="438" y="346" text-anchor="middle" font-size="11" fill="#a78bfa">✓</text>
   <text x="456" y="346" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="#e5e7eb">Фактологическая верификация</text>
 
   <circle cx="438" cy="388" r="8" fill="#312e81"/>
-  <text x="438" y="392" text-anchor="middle" font-size="11" fill="#a78bfa">★</text>
+  <text x="438" y="392" text-anchor="middle" font-size="11" fill="#a78bfa">✓</text>
   <text x="456" y="392" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="#e5e7eb">Единый NAP: Карты, 2ГИС, сайт</text>
 
   <circle cx="438" cy="434" r="8" fill="#312e81"/>
-  <text x="438" y="438" text-anchor="middle" font-size="11" fill="#a78bfa">★</text>
+  <text x="438" y="438" text-anchor="middle" font-size="11" fill="#a78bfa">✓</text>
   <text x="456" y="438" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="#e5e7eb">100 гео-фраз (Новороссийск)</text>
 
   <circle cx="438" cy="480" r="8" fill="#312e81"/>
-  <text x="438" y="484" text-anchor="middle" font-size="11" fill="#a78bfa">★</text>
+  <text x="438" y="484" text-anchor="middle" font-size="11" fill="#a78bfa">✓</text>
   <text x="456" y="484" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="#e5e7eb">Аудит в Топвизоре &amp; Вебмастере</text>
 </svg>

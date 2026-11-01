@@ -28,7 +28,7 @@
       "title": "Магазин «Прованс»",
       "category": "E-Commerce & Data Migration",
       "stack": ["WordPress", "WooCommerce", "PHP", "MySQL", "301 Redirects", "SpaceWeb"],
-      "summary": "Бесшовный перенос интернет-магазина натуральной косметики с Tilda: 1888 товаров, 365 категорий, 90 SEO-редиректов и кастомная витрина.",
+      "summary": "Миграция интернет-магазина натуральной косметики с Tilda на WordPress: 1888 товаров, 365 категорий, 90 SEO-редиректов и тема витрины.",
       "detail_url": "cases/provans.html",
       "api_url": "api/cases/provans.json"
     },

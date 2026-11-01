@@ -970,7 +970,16 @@ h2 {
 }
 
 .matrix-icon {
-  font-size: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--canvas);
+  border: 1px solid var(--line);
+  color: var(--accent);
+  flex-shrink: 0;
 }
 
 .matrix-header h3 {

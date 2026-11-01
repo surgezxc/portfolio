@@ -1399,6 +1399,13 @@ h2 {
     color: #94a3b8;
   }
 
+  /* Force all scroll-reveal elements to be fully visible in print */
+  .appear {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
   /* ─────────────────────────────────────────────────────────
      2. FULL PORTFOLIO MODE
      ───────────────────────────────────────────────────────── */
@@ -1415,30 +1422,63 @@ h2 {
   }
 
   body.print-mode-full .hero {
-    padding: 0 0 16pt 0 !important;
-    page-break-after: avoid;
-    break-after: avoid;
+    padding: 0 0 12pt 0 !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  body.print-mode-full .hero h1 {
+    font-size: 22pt !important;
+    line-height: 1.1 !important;
+    margin: 4pt 0 8pt 0 !important;
+  }
+
+  body.print-mode-full .skills-matrix {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8pt !important;
+    margin-top: 12pt !important;
+  }
+
+  body.print-mode-full .matrix-card {
+    padding: 8pt 10pt !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+    border: 1px solid #cbd5e1 !important;
+    background: #f8fafc !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
 
   body.print-mode-full .board {
     display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 10pt !important;
-    padding: 10pt 0 !important;
-    page-break-after: always;
-    break-after: page;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8pt !important;
+    padding: 8pt 0 14pt 0 !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  body.print-mode-full .board-card {
+    box-shadow: none !important;
+    border: 1px solid #cbd5e1 !important;
+    background: #f8fafc !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  body.print-mode-full .board-pic {
+    display: none !important;
   }
 
   body.print-mode-full .chapter {
     display: block !important;
-    padding: 16pt 0 !important;
-    border-top: 2px solid #0f172a !important;
-    page-break-before: always;
-    break-before: page;
+    padding: 14pt 0 !important;
+    border-top: 1px solid #cbd5e1 !important;
   }
 
   body.print-mode-full .chapter h2 {
-    font-size: 16pt !important;
+    font-size: 15pt !important;
     page-break-after: avoid;
     break-after: avoid;
   }
@@ -1448,16 +1488,24 @@ h2 {
   }
 
   body.print-mode-full .chapter .stage {
-    max-height: 280px !important;
-    margin-bottom: 12pt !important;
+    max-height: 220px !important;
+    margin: 8pt 0 !important;
     page-break-inside: avoid;
     break-inside: avoid;
   }
 
-  body.print-mode-full .chapter .fig {
-    width: 100% !important;
+  body.print-mode-full .chapter .facts {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  body.print-mode-full .chapter .fig,
+  body.print-mode-full .chapter .stage svg,
+  body.print-mode-full .chapter .stage img {
+    max-height: 220px !important;
+    width: auto !important;
     max-width: 100% !important;
-    height: auto !important;
+    object-fit: contain !important;
   }
 
   body.print-mode-full .thumbs,
@@ -1480,11 +1528,18 @@ h2 {
   body.print-mode-full .card-box,
   body.print-mode-full .how-card,
   body.print-mode-full .can-card,
-  body.print-mode-full .matrix-card {
+  body.print-mode-full .matrix-card,
+  body.print-mode-full .footer {
     box-shadow: none !important;
     border: 1px solid #cbd5e1 !important;
     background: #f8fafc !important;
     page-break-inside: avoid;
     break-inside: avoid;
+  }
+
+  body.print-mode-full .footer {
+    padding: 12pt 16pt !important;
+    margin-top: 14pt !important;
+    border-radius: 8pt !important;
   }
 }

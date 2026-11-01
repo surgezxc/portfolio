@@ -802,12 +802,16 @@ function showToast(msg) {
 
 let savedPrintHash = "";
 let savedPrintTitle = "";
-let currentPrintMode = "compact";
+let currentPrintMode = (typeof window !== "undefined" && window.location && new URLSearchParams(window.location.search).get("print") === "full") ? "full" : "compact";
 
 function prepareForPrint(mode) {
   currentPrintMode = mode || currentPrintMode || "compact";
   document.body.classList.remove("print-mode-compact", "print-mode-full");
   document.body.classList.add("print-mode-" + currentPrintMode);
+
+  document.querySelectorAll(".appear").forEach((el) => {
+    el.classList.add("visible");
+  });
 
   savedPrintHash = window.location.hash;
   savedPrintTitle = document.title;

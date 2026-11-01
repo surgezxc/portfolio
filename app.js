@@ -759,6 +759,10 @@ function initReveal() {
 function initClipboard() {
   document.querySelectorAll("[data-copy]").forEach((el) => {
     el.addEventListener("click", (e) => {
+      const href = el.getAttribute("href") || "";
+      if (href.startsWith("tel:") && /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)) {
+        return; // allow native calling on mobile devices
+      }
       e.preventDefault();
       const text = el.getAttribute("data-copy");
       if (!text) return;

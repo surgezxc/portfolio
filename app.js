@@ -792,9 +792,37 @@ function showToast(msg) {
   }, 2200);
 }
 
+let savedPrintHash = "";
+let savedPrintTitle = "";
+
+function prepareForPrint() {
+  savedPrintHash = window.location.hash;
+  savedPrintTitle = document.title;
+  if (savedPrintHash) {
+    history.replaceState(null, "", window.location.pathname + window.location.search);
+  }
+  const lang = document.documentElement.lang || "ru";
+  document.title = (lang === "en")
+    ? "Vladislav Khodarev — Systems Analyst Resume"
+    : "Владислав Ходарев — Резюме (Системный аналитик)";
+}
+
+function restoreAfterPrint() {
+  if (savedPrintHash) {
+    history.replaceState(null, "", window.location.pathname + window.location.search + savedPrintHash);
+  }
+  if (savedPrintTitle) {
+    document.title = savedPrintTitle;
+  }
+}
+
+window.addEventListener("beforeprint", prepareForPrint);
+window.addEventListener("afterprint", restoreAfterPrint);
+
 const printBtn = document.getElementById("print-btn");
 if (printBtn) {
   printBtn.addEventListener("click", () => {
+    prepareForPrint();
     window.print();
   });
 }

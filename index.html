@@ -34,10 +34,29 @@
       <a class="brand" href="#top" data-i18n="name">Владислав Ходарев</a>
       <nav class="nav" id="nav" aria-label="Проекты"></nav>
       <div class="header-controls">
-        <button type="button" class="action-btn" id="print-btn" title="Сохранить в PDF / Печать" aria-label="Сохранить резюме в PDF">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-          <span data-i18n="downloadCv">PDF Резюме</span>
-        </button>
+        <div class="print-menu-wrap" id="print-menu-wrap">
+          <button type="button" class="action-btn" id="print-btn" title="Сохранить в PDF / Печать" aria-label="Сохранить резюме в PDF" aria-haspopup="true" aria-expanded="false">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+            <span data-i18n="downloadCv">PDF Резюме</span>
+            <svg class="chevron-down" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="print-dropdown" id="print-dropdown" role="menu" aria-label="Формат PDF">
+            <button type="button" class="print-opt" id="print-opt-compact" role="menuitem">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+              <div>
+                <strong data-i18n="printCompactTitle">Краткое резюме (2 стр.)</strong>
+                <small data-i18n="printCompactDesc">Для HR: контакты, ДГТУ, навыки и выжимка 5 проектов</small>
+              </div>
+            </button>
+            <button type="button" class="print-opt" id="print-opt-full" role="menuitem">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+              <div>
+                <strong data-i18n="printFullTitle">Полное портфолио</strong>
+                <small data-i18n="printFullDesc">Все 5 кейсов целиком: архитектура, схемы, код и ТЗ</small>
+              </div>
+            </button>
+          </div>
+        </div>
         <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Сменить тему" title="Тема">
           <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="12" cy="12" r="5"></circle>
@@ -192,9 +211,9 @@
 
     <div class="cv-page">
       <header class="cv-header" style="padding-bottom: 4px; margin-bottom: 8px;">
-        <div style="display: flex; justify-content: space-between; align-items: baseline;">
-          <div class="cv-name" style="font-size: 13.5pt;">Владислав Ходарев — Проекты и практический опыт</div>
-          <div style="font-size: 8pt; color: #64748b;">Портфолио: surgezxc.github.io/portfolio</div>
+        <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap;">
+          <div class="cv-name" style="font-size: 13pt;">Владислав Ходарев — Проекты и практический опыт</div>
+          <div style="font-size: 8pt; color: #64748b; white-space: nowrap;">surgezxc.github.io/portfolio</div>
         </div>
       </header>
 
@@ -355,9 +374,9 @@
 
     <div class="cv-page">
       <header class="cv-header" style="padding-bottom: 4px; margin-bottom: 8px;">
-        <div style="display: flex; justify-content: space-between; align-items: baseline;">
-          <div class="cv-name" style="font-size: 13.5pt;">Vladislav Khodarev — Projects &amp; Practical Experience</div>
-          <div style="font-size: 8pt; color: #64748b;">Portfolio: surgezxc.github.io/portfolio</div>
+        <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap;">
+          <div class="cv-name" style="font-size: 13pt;">Vladislav Khodarev — Projects &amp; Practical Experience</div>
+          <div style="font-size: 8pt; color: #64748b; white-space: nowrap;">surgezxc.github.io/portfolio</div>
         </div>
       </header>
 

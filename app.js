@@ -12,6 +12,10 @@ const copy = {
     lead: "Учусь в ДГТУ на системной аналитике. Люблю и хорошо беру на себя эту роль в реальных кейсах: разложить сложную систему по полочкам, перевести задачи бизнеса на язык архитектуры и вместе с командой довести разработку до результата. Также имею практический опыт в техническом SEO и GEO-оптимизации под Яндекс Нейро. Ниже — пять сделанных проектов.",
     locationStatus: "Ростов-на-Дону · Удалёнка / Гибрид · Полный день / Стажировка",
     downloadCv: "PDF Резюме",
+    printCompactTitle: "Краткое резюме (2 стр.)",
+    printCompactDesc: "Для HR: контакты, ДГТУ, навыки и выжимка 5 проектов",
+    printFullTitle: "Полное портфолио",
+    printFullDesc: "Все 5 кейсов целиком: архитектура, схемы, код и ТЗ",
     copiedToast: "Скопировано в буфер!",
     skillsTitle: "Ключевые компетенции",
     skillsAnalyticsTitle: "Системная аналитика",
@@ -251,6 +255,10 @@ const copy = {
     lead: "Studying Systems Analysis at DSTU (09.03.02). I naturally embrace this role in real projects: breaking down complex domains, turning business needs into clear architecture, and shipping solid code with the team. I also have hands-on experience in technical SEO and GEO optimization for Yandex Neuro and Maps. Below are five finished projects.",
     locationStatus: "Rostov-on-Don · Remote / Hybrid · Full-time / Internship",
     downloadCv: "PDF Resume",
+    printCompactTitle: "Compact Resume (2 pages)",
+    printCompactDesc: "For HR: contacts, DSTU education, skills & 5 project briefs",
+    printFullTitle: "Full Portfolio",
+    printFullDesc: "All 5 complete case studies: architecture, diagrams & code",
     copiedToast: "Copied to clipboard!",
     skillsTitle: "Core Competencies",
     skillsAnalyticsTitle: "Systems Analysis",
@@ -794,17 +802,28 @@ function showToast(msg) {
 
 let savedPrintHash = "";
 let savedPrintTitle = "";
+let currentPrintMode = "compact";
 
-function prepareForPrint() {
+function prepareForPrint(mode) {
+  currentPrintMode = mode || currentPrintMode || "compact";
+  document.body.classList.remove("print-mode-compact", "print-mode-full");
+  document.body.classList.add("print-mode-" + currentPrintMode);
+
   savedPrintHash = window.location.hash;
   savedPrintTitle = document.title;
   if (savedPrintHash) {
     history.replaceState(null, "", window.location.pathname + window.location.search);
   }
   const lang = document.documentElement.lang || "ru";
-  document.title = (lang === "en")
-    ? "Vladislav Khodarev — Systems Analyst Resume"
-    : "Владислав Ходарев — Резюме (Системный аналитик)";
+  if (currentPrintMode === "compact") {
+    document.title = (lang === "en")
+      ? "Vladislav Khodarev — Systems Analyst Resume"
+      : "Владислав Ходарев — Резюме (Системный аналитик)";
+  } else {
+    document.title = (lang === "en")
+      ? "Vladislav Khodarev — Systems Analyst Portfolio"
+      : "Владислав Ходарев — Портфолио (Системный аналитик)";
+  }
 }
 
 function restoreAfterPrint() {
@@ -816,13 +835,55 @@ function restoreAfterPrint() {
   }
 }
 
-window.addEventListener("beforeprint", prepareForPrint);
+window.addEventListener("beforeprint", () => prepareForPrint(currentPrintMode));
 window.addEventListener("afterprint", restoreAfterPrint);
 
 const printBtn = document.getElementById("print-btn");
-if (printBtn) {
-  printBtn.addEventListener("click", () => {
-    prepareForPrint();
+const printDropdown = document.getElementById("print-dropdown");
+const printOptCompact = document.getElementById("print-opt-compact");
+const printOptFull = document.getElementById("print-opt-full");
+
+function closePrintDropdown() {
+  if (printDropdown) {
+    printDropdown.classList.remove("show");
+  }
+  if (printBtn) {
+    printBtn.setAttribute("aria-expanded", "false");
+  }
+}
+
+if (printBtn && printDropdown) {
+  printBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const isExpanded = printDropdown.classList.toggle("show");
+    printBtn.setAttribute("aria-expanded", isExpanded ? "true" : "false");
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest("#print-menu-wrap")) {
+      closePrintDropdown();
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      closePrintDropdown();
+    }
+  });
+}
+
+if (printOptCompact) {
+  printOptCompact.addEventListener("click", () => {
+    prepareForPrint("compact");
+    closePrintDropdown();
+    window.print();
+  });
+}
+
+if (printOptFull) {
+  printOptFull.addEventListener("click", () => {
+    prepareForPrint("full");
+    closePrintDropdown();
     window.print();
   });
 }
